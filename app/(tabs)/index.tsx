@@ -1,11 +1,13 @@
 import { View, StyleSheet, Platform } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { type ImageSource } from "expo-image";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import * as MediaLibrary from "expo-media-library";
 import { captureRef } from "react-native-view-shot";
 import domtoimages from "dom-to-image";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/config";
 
 import Button from "@/components/Button";
 import ImageViewer from "@/components/ImageViewer";
@@ -14,6 +16,7 @@ import CircleButton from "@/components/CircleButton";
 import EmojiPicker from "@/components/EmojiPicker";
 import EmojiList from "@/components/EmojiList";
 import EmojiSticker from "@/components/EmojiSticker";
+import { router } from "expo-router";
 
 const PlaceholderImage = require('@/assets/images/partial-react-logo.png')
 
@@ -24,6 +27,14 @@ export default function Index() {
   const [pickedEmoji, setPickedEmoji] = useState<ImageSource | undefined>(undefined);
   const [status, requestPermission] = MediaLibrary.usePermissions();
   const imageRef = useRef<View>(null);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user !== null) {
+        router.replace('/(tabs)/(item)');
+      }
+    })
+  }, []);
 
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({

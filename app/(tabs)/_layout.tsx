@@ -5,7 +5,9 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
+        animation: 'shift',
         tabBarActiveTintColor: '#ffd33d',
+        tabBarShowLabel: false,
         headerStyle: {
           backgroundColor: '#25292e',
         },
@@ -31,6 +33,26 @@ export default function TabLayout() {
           title: 'About',
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? 'information-circle' : 'information-circle-outline'} color={color} size={24} />
+          )
+        }}
+      />
+      <Tabs.Screen
+        name="(item)"
+        options={{
+          title: 'Item',
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name={focused ? 'albums' : 'albums-outline'} color={color} size={24} />
+          )
+        }}
+      />
+      <Tabs.Screen
+        name="(account)"
+        options={{
+          title: 'Account',
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name={focused ? 'person' : 'person-outline'} color={color} size={24} />
           )
         }}
       />
