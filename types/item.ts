@@ -6,4 +6,6 @@ export type ItemProps = {
   body: string;
   updatedAt: Timestamp;
   author: string;
+  authorDisplayName: string | null;
+  authorPhotoURL: string | null;
 }
