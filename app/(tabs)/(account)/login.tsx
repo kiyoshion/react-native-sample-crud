@@ -1,8 +1,8 @@
 import Button from "@/components/Button";
 import { auth } from "@/config";
 import { Link, router } from "expo-router";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { useState } from "react";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { useEffect, useState } from "react";
 import { Text, TextInput } from "react-native";
 
 type FormProps = {
@@ -23,6 +23,15 @@ export default function LoginScreen() {
       console.log(e);
     })
   }
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        router.replace('/(tabs)/(account)/profile');
+      }
+    })
+    return unsubscribe;
+  },[])
 
   return (
     <>
