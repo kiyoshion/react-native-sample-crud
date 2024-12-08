@@ -1,5 +1,5 @@
 import { Pressable, Text, TextInput } from "react-native";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
+import { collection, addDoc, Timestamp, doc, getDoc } from "firebase/firestore";
 import { auth, db } from "@/config";
 import { useState } from "react";
 import { router } from "expo-router";
@@ -14,10 +14,11 @@ export default function CreateScreen() {
 
   const onCreateItem = () => {
     if (auth.currentUser === null) { return }
+    const userRef = doc(db, "usrs", auth.currentUser.uid)
     addDoc(collection(db, 'items'), {
       title: item.title,
       body: item.body,
-      author: auth.currentUser.uid,
+      author: userRef,
       updatedAt: Timestamp.fromDate(new Date()),
     })
       .then((docRef) => {
